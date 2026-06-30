@@ -1,420 +1,800 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praktikum Cloud Computing - Kelompok Ntahlah</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angkatan Pertama 2023 — S1 Teknologi Informasi UNIMUS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAF7F0;
+    --bg-alt: #F1ECE0;
+    --ink: #1E231D;
+    --ink-soft: #54594F;
+    --forest: #1B4332;
+    --forest-light: #2D6A4F;
+    --gold: #B8922F;
+    --gold-light: #E0C25C;
+    --sage: #E2E8DF;
+    --line: #D2CBB6;
+    --card-bg: #FFFFFF;
+    --radius: 4px;
+    --max: 1180px;
+    --shadow: 0 1px 2px rgba(27,67,50,0.06), 0 6px 20px rgba(27,67,50,0.06);
+  }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #f8fafc;
-      color: #1e293b;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 40px 16px;
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;}
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    color:var(--forest);
+    font-weight:600;
+    line-height:1.1;
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--gold);
+    display:inline-block;
+  }
+
+  .sr-only{
+    position:absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* ===== NAV ===== */
+  header.nav{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(250,247,240,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 28px;
+    max-width:var(--max);
+    margin:0 auto;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    color:var(--forest);
+    font-size:1.05rem;
+  }
+  .brand .mark{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1.5px solid var(--forest);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.62rem;
+    font-weight:600;
+    color:var(--forest);
+  }
+  nav.links{
+    display:flex;
+    gap:30px;
+  }
+  nav.links a{
+    font-size:0.88rem;
+    font-weight:500;
+    color:var(--ink-soft);
+    position:relative;
+    padding:4px 0;
+    transition:color .2s ease;
+  }
+  nav.links a:hover, nav.links a.active{ color:var(--forest); }
+  nav.links a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:-2px;
+    width:0; height:2px;
+    background:var(--gold);
+    transition:width .25s ease;
+  }
+  nav.links a:hover::after, nav.links a.active::after{ width:100%; }
+
+  .menu-btn{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px;
+  }
+  .menu-btn span{
+    width:22px; height:2px; background:var(--forest);
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:96px 0 80px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:48px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.5rem, 5.4vw, 4.1rem);
+    margin:18px 0 22px;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--gold);
+  }
+  .hero p.lead{
+    font-size:1.08rem;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin-bottom:34px;
+  }
+  .hero-meta{
+    display:flex;
+    gap:34px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{
+    font-family:'JetBrains Mono', monospace;
+  }
+  .hero-meta .num{
+    font-size:1.5rem;
+    color:var(--forest);
+    font-weight:600;
+    display:block;
+  }
+  .hero-meta .label{
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  /* Seal */
+  .seal-wrap{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .seal{
+    width:min(360px, 90%);
+    height:auto;
+    animation: spin 38s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .seal{animation:none;}
+  }
+  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  .seal-center{
+    animation: counterspin 38s linear infinite;
+    transform-origin:center;
+  }
+  @keyframes counterspin{ from{transform:rotate(0deg);} to{transform:rotate(-360deg);} }
+
+  /* ===== SECTION GENERIC ===== */
+  section{
+    padding:90px 0;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+  .section-head{
+    max-width:640px;
+    margin-bottom:48px;
+  }
+  .section-head h2{
+    font-size:clamp(1.8rem, 3.2vw, 2.5rem);
+    margin-top:14px;
+  }
+  .section-head p{
+    color:var(--ink-soft);
+    margin-top:14px;
+    font-size:1rem;
+  }
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ===== PROFIL ===== */
+  .profil-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .profil-grid p{
+    color:var(--ink-soft);
+    margin-bottom:16px;
+  }
+  .stat-cards{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .stat-card{
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 20px;
+  }
+  .stat-card .num{
+    font-family:'Fraunces', serif;
+    font-size:1.9rem;
+    color:var(--forest);
+    font-weight:600;
+  }
+  .stat-card .label{
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+
+  /* ===== ANGGOTA ===== */
+  .anggota-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
+  }
+  .id-card{
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .id-card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:3px;
+    background:linear-gradient(90deg, var(--forest), var(--gold-light));
+    z-index:2;
+  }
+  .avatar{
+    width:48px; height:48px;
+    border-radius:50%;
+    background:var(--sage);
+    color:var(--forest);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:0.95rem;
+    margin-bottom:14px;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    background-size:cover;
+    background-position:center;
+  }
+  .avatar .upload-hint{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(27,67,50,0.6);
+    color:#fff;
+    font-size:0.85rem;
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .avatar:hover .upload-hint{ opacity:1; }
+  .avatar.has-photo .avatar-initial{ display:none; }
+
+  .id-card .name{
+    font-size:0.92rem;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .id-card .nim{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.74rem;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+
+  /* ===== GALERI ===== */
+  .galeri-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+  }
+  .gal-item{
+    aspect-ratio:4/3;
+    border-radius:var(--radius);
+    background:linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 60%, var(--gold) 130%);
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    padding:16px;
+    overflow:hidden;
+    cursor:pointer;
+    background-size:cover;
+    background-position:center;
+  }
+  .gal-item::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0, transparent 40%);
+  }
+  .gal-item.has-photo::after{ display:none; }
+  .gal-item span{
+    position:relative;
+    z-index:1;
+    color:#fff;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:0.04em;
+    opacity:0.9;
+    background:rgba(0,0,0,0.25);
+    padding:4px 8px;
+    border-radius:3px;
+  }
+  .gal-item .upload-hint{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(27,67,50,0.55);
+    color:#fff;
+    font-size:1.6rem;
+    opacity:0;
+    transition:opacity .2s ease;
+    z-index:2;
+  }
+  .gal-item:hover .upload-hint{ opacity:1; }
+
+  /* ===== FOOTER ===== */
+  footer{
+    background:var(--forest);
+    color:#fff;
+    padding:64px 0 28px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:40px;
+    border-bottom:1px solid rgba(255,255,255,0.14);
+  }
+  footer h4{
+    color:#fff;
+    font-size:1.2rem;
+    margin-bottom:14px;
+  }
+  footer p{
+    color:rgba(255,255,255,0.7);
+    font-size:0.92rem;
+    max-width:340px;
+  }
+  footer .col-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:16px;
+  }
+  footer ul li{
+    margin-bottom:10px;
+    font-size:0.92rem;
+    color:rgba(255,255,255,0.78);
+  }
+  footer ul li a:hover{ color:var(--gold-light); }
+  .bottom-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:24px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .bottom-bar p{
+    font-size:0.8rem;
+    color:rgba(255,255,255,0.55);
+  }
+  .socials{
+    display:flex;
+    gap:14px;
+  }
+  .socials a{
+    width:34px; height:34px;
+    border:1px solid rgba(255,255,255,0.3);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .socials a:hover{ background:rgba(255,255,255,0.1); border-color:var(--gold-light); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 960px){
+    .hero-grid{ grid-template-columns:1fr; gap:40px; }
+    .seal-wrap{ order:-1; }
+    .seal{ width:220px; }
+    .profil-grid{ grid-template-columns:1fr; }
+    .anggota-grid{ grid-template-columns:repeat(3,1fr); }
+    .galeri-grid{ grid-template-columns:repeat(2,1fr); }
+    .footer-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width: 680px){
+    nav.links{
+      position:fixed;
+      top:64px; left:0; right:0;
+      background:var(--bg);
+      flex-direction:column;
+      padding:18px 28px;
+      gap:18px;
+      border-bottom:1px solid var(--line);
+      transform:translateY(-130%);
+      transition:transform .25s ease;
     }
+    nav.links.open{ transform:translateY(0); }
+    .menu-btn{ display:flex; }
+    .hero{ padding:60px 0 56px; }
+    .hero-meta{ gap:24px; }
+    section{ padding:64px 0; }
+    .anggota-grid{ grid-template-columns:repeat(2,1fr); }
+    .galeri-grid{ grid-template-columns:1fr 1fr; }
+    .footer-grid{ grid-template-columns:1fr; }
+  }
 
-    .card {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      padding: 28px 32px;
-      max-width: 640px;
-      width: 100%;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    h2 { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
-    .subtitle { font-size: 13px; color: #64748b; }
-    .subtitle span { color: #6366f1; font-weight: 600; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 3px 10px;
-      border-radius: 99px;
-    }
-    .badge-success { background: #dcfce7; color: #15803d; }
-    .badge-accent  { background: #ede9fe; color: #4f46e5; }
-    .badge-warning { background: #fef9c3; color: #a16207; }
-    .badge-danger  { background: #fee2e2; color: #b91c1c; }
-
-    hr.divider { border: 0; height: 1px; background: #e2e8f0; margin: 20px 0; }
-
-    .section-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 12px;
-    }
-
-    /* Tabs */
-    .tabs { display: flex; gap: 2px; border-bottom: 1px solid #e2e8f0; margin-bottom: 18px; }
-    .tab {
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #94a3b8;
-      cursor: pointer;
-      border: none;
-      border-bottom: 2px solid transparent;
-      background: none;
-      margin-bottom: -1px;
-      font-family: inherit;
-      transition: color 0.15s;
-    }
-    .tab.active { color: #6366f1; border-bottom-color: #6366f1; }
-    .tab:hover:not(.active) { color: #64748b; }
-
-    .pane { display: none; }
-    .pane.active { display: block; }
-
-    /* Table */
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    thead th {
-      padding: 8px 0;
-      font-size: 12px;
-      font-weight: 500;
-      color: #94a3b8;
-      border-bottom: 1px solid #e2e8f0;
-      text-align: left;
-    }
-    tbody tr { border-bottom: 1px solid #f1f5f9; }
-    tbody tr:last-child { border-bottom: none; }
-    tbody td { padding: 11px 0; }
-
-    .avatar {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: #ede9fe; color: #4f46e5;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 600;
-      margin-right: 8px; flex-shrink: 0;
-    }
-    .name-cell { display: flex; align-items: center; }
-
-    /* Metric cards */
-    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-    .metric-card { background: #f8fafc; border-radius: 10px; padding: 12px 14px; border: 1px solid #f1f5f9; }
-    .metric-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
-    .metric-value { font-size: 20px; font-weight: 700; color: #1e293b; }
-    .metric-sub { font-size: 11px; color: #94a3b8; margin-top: 2px; }
-
-    /* Status bar */
-    .status-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      background: #f8fafc; padding: 14px 16px;
-      border-radius: 10px; border: 1px solid #f1f5f9;
-      margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 7px; flex-shrink: 0; }
-
-    /* Buttons */
-    .btn {
-      border: 1px solid #cbd5e1; background: transparent; color: #1e293b;
-      padding: 8px 14px; font-size: 13px; font-weight: 500;
-      border-radius: 8px; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: inherit; transition: background 0.15s;
-    }
-    .btn:hover { background: #f1f5f9; }
-    .btn-primary { background: #6366f1; color: #fff; border-color: transparent; }
-    .btn-primary:hover { background: #4f46e5; }
-    .btn-danger { background: #ef4444; color: #fff; border-color: transparent; }
-    .btn-danger:hover { background: #dc2626; }
-
-    /* Log box */
-    .log-box {
-      background: #0f172a; border: 1px solid #1e293b;
-      border-radius: 8px; padding: 12px 14px;
-      font-family: 'Courier New', monospace; font-size: 12px;
-      color: #94a3b8; max-height: 160px; overflow-y: auto;
-      line-height: 1.8;
-    }
-    .log-entry { display: flex; gap: 10px; }
-    .log-time  { color: #475569; flex-shrink: 0; }
-    .log-ok    { color: #4ade80; }
-    .log-err   { color: #f87171; }
-    .log-info  { color: #60a5fa; }
-
-    /* Timeline */
-    .timeline { display: flex; flex-direction: column; }
-    .tl-item { display: flex; gap: 14px; position: relative; padding-bottom: 16px; }
-    .tl-item:last-child { padding-bottom: 0; }
-    .tl-left { display: flex; flex-direction: column; align-items: center; }
-    .tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
-    .tl-line { width: 1px; flex: 1; background: #e2e8f0; margin-top: 4px; }
-    .tl-item:last-child .tl-line { display: none; }
-    .tl-label { font-size: 13px; font-weight: 500; color: #1e293b; margin-bottom: 2px; }
-    .tl-time  { font-size: 12px; color: #94a3b8; }
-
-    /* Progress bars */
-    .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
-    .progress-label { min-width: 80px; color: #64748b; }
-    .progress-bar-bg { flex: 1; height: 6px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
-    .progress-bar { height: 100%; border-radius: 99px; background: #6366f1; transition: width 0.9s ease; }
-    .progress-pct { min-width: 34px; text-align: right; color: #94a3b8; font-size: 12px; }
-  </style>
+  :focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+</style>
 </head>
 <body>
 
-<div class="card">
-  <div class="card-header">
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#beranda">
+      <span class="mark">TI</span>
+      Angkatan 2023
+    </a>
+    <nav class="links" id="navLinks">
+      <a href="#profil">Profil</a>
+      <a href="#anggota">Anggota</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Buka menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="beranda">
+  <div class="wrap hero-grid">
     <div>
-      <h2>Praktikum Cloud Computing</h2>
-      <p class="subtitle">Kelompok: <span>Ntahlah</span></p>
+      <span class="eyebrow">Angkatan Pertama · 2023</span>
+      <h1>Program Studi<br><em>S1 Teknologi Informasi</em></h1>
+      <p class="lead">Universitas Muhammadiyah Semarang. Kami adalah generasi pembuka angkatan pertama yang merintis tradisi, membangun karakter, dan menjadi fondasi bagi angkatan-angkatan Teknologi Informasi UNIMUS berikutnya.</p>
+      <div class="hero-meta">
+        <div><span class="num">2023</span><span class="label">Tahun Berdiri</span></div>
+        <div><span class="num">34</span><span class="label">Mahasiswa</span></div>
+        <div><span class="num">01</span><span class="label">Angkatan Perintis</span></div>
+      </div>
     </div>
-    <span class="badge badge-success"><i class="ti ti-circle-check"></i> Active</span>
-  </div>
-
-  <hr class="divider">
-
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('anggota')">Anggota</button>
-    <button class="tab" onclick="switchTab('pipeline')">Pipeline</button>
-    <button class="tab" onclick="switchTab('progress')">Progress</button>
-  </div>
-
-  <!-- Tab: Anggota -->
-  <div class="pane active" id="pane-anggota">
-    <table>
-      <thead>
-        <tr>
-          <th style="width:40px;">No</th>
-          <th>Nama lengkap</th>
-          <th style="text-align:right;">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="color:#94a3b8;">01</td>
-          <td><div class="name-cell"><div class="avatar">NI</div>Nabila Ismawarni KA</div></td>
-          <td style="text-align:right;"><span class="badge badge-success">Aktif</span></td>
-        </tr>
-        <tr>
-          <td style="color:#94a3b8;">02</td>
-          <td><div class="name-cell"><div class="avatar">KM</div>Kilala Mahadewi</div></td>
-          <td style="text-align:right;"><span class="badge badge-success">Aktif</span></td>
-        </tr>
-        <tr>
-          <td style="color:#94a3b8;">03</td>
-          <td><div class="name-cell"><div class="avatar">SI</div>Syahrul Ibnu R.</div></td>
-          <td style="text-align:right;"><span class="badge badge-success">Aktif</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="metrics">
-      <div class="metric-card">
-        <div class="metric-label">Anggota</div>
-        <div class="metric-value">3</div>
-        <div class="metric-sub">Total</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Build</div>
-        <div class="metric-value" id="build-count">0</div>
-        <div class="metric-sub">dijalankan</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Uptime</div>
-        <div class="metric-value" id="uptime">0s</div>
-        <div class="metric-sub">sesi ini</div>
-      </div>
+    <div class="seal-wrap">
+      <svg class="seal" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="140" fill="none" stroke="#1B4332" stroke-width="1.2"/>
+        <circle cx="150" cy="150" r="118" fill="none" stroke="#B8922F" stroke-width="1"/>
+        <path id="circlePath" d="M 150,150 m -129,0 a 129,129 0 1,1 258,0 a 129,129 0 1,1 -258,0" fill="none"/>
+        <text font-family="JetBrains Mono, monospace" font-size="11.5" letter-spacing="3" fill="#1B4332" font-weight="600">
+          <textPath href="#circlePath" startOffset="0%">ANGKATAN PERTAMA • TEKNOLOGI INFORMASI • UNIMUS • 2023 •</textPath>
+        </text>
+        <g class="seal-center">
+          <circle cx="150" cy="150" r="76" fill="#1B4332"/>
+          <g stroke="#E0C25C" stroke-width="1.4" fill="none" opacity="0.9">
+            <circle cx="150" cy="150" r="34"/>
+            <line x1="150" y1="116" x2="150" y2="100"/>
+            <line x1="150" y1="184" x2="150" y2="200"/>
+            <line x1="116" y1="150" x2="100" y2="150"/>
+            <line x1="184" y1="150" x2="200" y2="150"/>
+            <circle cx="150" cy="100" r="3" fill="#E0C25C"/>
+            <circle cx="150" cy="200" r="3" fill="#E0C25C"/>
+            <circle cx="100" cy="150" r="3" fill="#E0C25C"/>
+            <circle cx="200" cy="150" r="3" fill="#E0C25C"/>
+          </g>
+          <text x="150" y="158" text-anchor="middle" font-family="Fraunces, serif" font-size="26" fill="#FAF7F0" font-weight="600">TI</text>
+        </g>
+      </svg>
     </div>
   </div>
+</section>
 
-  <!-- Tab: Pipeline -->
-  <div class="pane" id="pane-pipeline">
-    <div class="status-bar">
-      <div style="display:flex; align-items:center;">
-        <span class="dot" id="status-dot" style="background:#22c55e;"></span>
-        <span style="font-size:13px; font-weight:600; color:#1e293b;">
-          CI/CD Status: <span id="status-text" style="color:#22c55e;">Ready to Test</span>
-        </span>
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn btn-primary" onclick="runTest()">
-          <i class="ti ti-player-play"></i> Trigger Test
-        </button>
-        <button class="btn btn-danger" onclick="resetLog()">
-          <i class="ti ti-trash"></i> Clear
-        </button>
-      </div>
+<section id="profil">
+  <div class="wrap profil-grid">
+    <div class="reveal">
+      <span class="eyebrow">Profil Angkatan</span>
+      <h2>Generasi yang merintis dari nol</h2>
+      <p>Angkatan 2023 adalah kelompok mahasiswa pertama yang resmi tercatat di Program Studi S1 Teknologi Informasi, Universitas Muhammadiyah Semarang. Tidak ada jejak senior yang bisa diikuti setiap kebiasaan, setiap tradisi, dan setiap standar yang ada hari ini dimulai dari sini.</p>
+      <p>Dengan semangat kolaboratif dan rasa ingin tahu yang tinggi terhadap dunia teknologi, 34 mahasiswa angkatan ini tumbuh bersama: belajar, berorganisasi, dan menyiapkan fondasi yang kokoh untuk angkatan-angkatan yang akan datang.</p>
     </div>
-
-    <div class="section-title">Execution log</div>
-    <div class="log-box" id="log-box">
-      <div class="log-entry">
-        <span class="log-time">--:--:--</span>
-        <span class="log-info">Siap menerima perintah. Tekan Trigger Test.</span>
-      </div>
+    <div class="stat-cards reveal">
+      <div class="stat-card"><div class="num">2023</div><div class="label">Tahun Angkatan</div></div>
+      <div class="stat-card"><div class="num">34</div><div class="label">Jumlah Mahasiswa</div></div>
+      <div class="stat-card"><div class="num">6</div><div class="label">Semester Ditempuh</div></div>
+      <div class="stat-card"><div class="num">C2F023</div><div class="label">Kode Angkatan</div></div>
     </div>
   </div>
+</section>
 
-  <!-- Tab: Progress -->
-  <div class="pane" id="pane-progress">
-    <div class="section-title">Checklist modul</div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-left"><div class="tl-dot" style="background:#22c55e;"></div><div class="tl-line"></div></div>
-        <div>
-          <div class="tl-label">Setup VM &amp; Cloud Provider <span class="badge badge-success" style="font-size:11px;">Selesai</span></div>
-          <div class="tl-time">Modul 1</div>
-        </div>
+<section id="anggota" style="background:var(--bg-alt);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Daftar Anggota</span>
+      <h2>34 Mahasiswa Angkatan 2023</h2>
+      <p>Arahkan kursor lalu klik foto pada tiap kartu untuk mengunggah foto mahasiswa yang bersangkutan.</p>
+    </div>
+    <div class="anggota-grid reveal" id="anggotaGrid"></div>
+  </div>
+</section>
+
+<section id="galeri">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Dokumentasi</span>
+      <h2>Galeri Kegiatan</h2>
+      <p>Klik salah satu kotak di bawah untuk mengunggah foto kegiatan angkatan.</p>
+    </div>
+    <div class="galeri-grid reveal" id="galeriGrid"></div>
+  </div>
+</section>
+
+<footer id="kontak">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Angkatan Pertama 2023</h4>
+        <p>Program Studi S1 Teknologi Informasi, Fakultas Ilmu Komputer dan Teknologi Digital, Universitas Muhammadiyah Semarang.</p>
       </div>
-      <div class="tl-item">
-        <div class="tl-left"><div class="tl-dot" style="background:#22c55e;"></div><div class="tl-line"></div></div>
-        <div>
-          <div class="tl-label">Containerization &amp; Docker <span class="badge badge-success" style="font-size:11px;">Selesai</span></div>
-          <div class="tl-time">Modul 2</div>
-        </div>
+      <div>
+        <div class="col-title">Navigasi</div>
+        <ul>
+          <li><a href="#profil">Profil</a></li>
+          <li><a href="#anggota">Anggota</a></li>
+          <li><a href="#galeri">Galeri</a></li>
+        </ul>
       </div>
-      <div class="tl-item">
-        <div class="tl-left"><div class="tl-dot" style="background:#6366f1;"></div><div class="tl-line"></div></div>
-        <div>
-          <div class="tl-label">CI/CD Pipeline <span class="badge badge-accent" style="font-size:11px;">Berlangsung</span></div>
-          <div class="tl-time">Modul 3 — saat ini</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-left"><div class="tl-dot" style="background:#f59e0b;"></div><div class="tl-line"></div></div>
-        <div>
-          <div class="tl-label">Kubernetes Orchestration <span class="badge badge-warning" style="font-size:11px;">Belum</span></div>
-          <div class="tl-time">Modul 4</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-left"><div class="tl-dot" style="background:#f59e0b;"></div></div>
-        <div>
-          <div class="tl-label">Monitoring &amp; Observability <span class="badge badge-warning" style="font-size:11px;">Belum</span></div>
-          <div class="tl-time">Modul 5</div>
-        </div>
+      <div>
+        <div class="col-title">Kontak</div>
+        <ul>
+          <li>Jl. Kedungmundu Raya No. 18, Semarang</li>
+          <li>angkatan2023.ti@unimus.ac.id</li>
+        </ul>
       </div>
     </div>
-
-    <hr class="divider">
-
-    <div class="section-title">Kontribusi anggota</div>
-    <div id="progress-bars">
-      <div class="progress-row">
-        <span class="progress-label">Nabila</span>
-        <div class="progress-bar-bg"><div class="progress-bar" style="width:0%" data-w="78%"></div></div>
-        <span class="progress-pct">78%</span>
-      </div>
-      <div class="progress-row">
-        <span class="progress-label">Kilala</span>
-        <div class="progress-bar-bg"><div class="progress-bar" style="width:0%" data-w="65%"></div></div>
-        <span class="progress-pct">65%</span>
-      </div>
-      <div class="progress-row">
-        <span class="progress-label">Syahrul</span>
-        <div class="progress-bar-bg"><div class="progress-bar" style="width:0%" data-w="71%"></div></div>
-        <span class="progress-pct">71%</span>
+    <div class="bottom-bar">
+      <p>© 2023–2026 Angkatan Pertama S1 Teknologi Informasi, UNIMUS.</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="WhatsApp">WA</a>
+        <a href="#" aria-label="YouTube">YT</a>
       </div>
     </div>
   </div>
-</div>
+</footer>
 
 <script>
-  let buildCount = 0;
-  let startTime = Date.now();
-  let running = false;
+  // ---------- Data anggota ----------
+  const mahasiswa = [
+    ["Raina Artika Ramadlonia","C2F023001"],
+    ["Taufik Ismail","C2F023002"],
+    ["Auliya Rohman Riquelme Al Ubaidah","C2F023004"],
+    ["Aqib Ainun Najib","C2F023005"],
+    ["Naimatul Husna","C2F023007"],
+    ["Diaz Aditya","C2F023008"],
+    ["Imanuel Laturake","C2F023009"],
+    ["Yasyifa Nur Bani","C2F023011"],
+    ["Syahrul Ibnu Ramadhan","C2F023012"],
+    ["Muhammad Faza Ardianto","C2F023013"],
+    ["M. Fiqri Zulfikar","C2F023014"],
+    ["Syahrul Ramadhon","C2F023015"],
+    ["Eva Febyliana","C2F023016"],
+    ["Teuku Zaine Abror Attolok","C2F023017"],
+    ["Wahyu Hari Saputra","C2F023018"],
+    ["Dewi Rahmawati","C2F023019"],
+    ["Irba Ilzami Al Haq","C2F023020"],
+    ["Nabila Ismawarni. Ka","C2F023021"],
+    ["Nisa Atthalia","C2F023022"],
+    ["Maulana Sihdi Habibie","C2F023023"],
+    ["Alfa Hikmatun Nabilah","C2F023024"],
+    ["Mustika Restu Nur Asri","C2F023025"],
+    ["Dyah Ayu Kusumaningtyas","C2F023026"],
+    ["Muchamad Faris Chakim","C2F023027"],
+    ["Herdiansyah Maulan Ahmad","C2F023028"],
+    ["Dwi Ayu Latifah","C2F023029"],
+    ["Ahmad Thoriq Alqi Ighafur","C2F023030"],
+    ["Fahri","C2F023031"],
+    ["Yusuf Faridz Maulana","C2F023032"],
+    ["Kilala Mahadewi","C2F023033"],
+    ["Muhamad Ipan Alkahfi","C2F023034"],
+    ["Ahmad Munfarid","C2F023035"],
+    ["Muhamad Fahmi Husaini","C2F023036"],
+    ["Karima Elsami","C2F023037"]
+  ];
 
-  setInterval(() => {
-    const sec = Math.floor((Date.now() - startTime) / 1000);
-    const el = document.getElementById('uptime');
-    if (el) el.textContent = sec < 60 ? sec + 's' : Math.floor(sec / 60) + 'm ' + (sec % 60) + 's';
-  }, 1000);
+  function getInitials(name){
+    const letters = name.split(' ').map(w => w.replace(/[^A-Za-z]/g,'')).filter(Boolean);
+    const a = letters[0] ? letters[0][0] : '';
+    const b = letters[1] ? letters[1][0] : '';
+    return (a+b).toUpperCase() || '??';
+  }
 
-  function switchTab(name) {
-    const names = ['anggota', 'pipeline', 'progress'];
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', names[i] === name);
+  // ---------- Storage helper (works inside Claude artifact via window.storage,
+  // falls back to localStorage when hosted normally, falls back to memory otherwise) ----------
+  const memoryStore = {};
+  async function storageSet(key, value){
+    try{
+      if(window.storage && typeof window.storage.set === 'function'){
+        await window.storage.set(key, value, false);
+        return;
+      }
+    }catch(e){}
+    try{ localStorage.setItem(key, value); return; }catch(e){}
+    memoryStore[key] = value;
+  }
+  async function storageGet(key){
+    try{
+      if(window.storage && typeof window.storage.get === 'function'){
+        const r = await window.storage.get(key, false);
+        if(r && r.value) return r.value;
+      }
+    }catch(e){}
+    try{
+      const v = localStorage.getItem(key);
+      if(v) return v;
+    }catch(e){}
+    return memoryStore[key] || null;
+  }
+
+  function applyPhoto(el, dataUrl){
+    el.style.backgroundImage = `url(${dataUrl})`;
+    el.classList.add('has-photo');
+  }
+
+  function wireUpload(el, key){
+    el.addEventListener('click', () => el.querySelector('input[type=file]').click());
+    const input = el.querySelector('input[type=file]');
+    input.addEventListener('click', e => e.stopPropagation());
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = async () => {
+        applyPhoto(el, reader.result);
+        await storageSet(key, reader.result);
+      };
+      reader.readAsDataURL(file);
     });
-    document.querySelectorAll('.pane').forEach((p) => {
-      p.classList.toggle('active', p.id === 'pane-' + name);
+    storageGet(key).then(saved => { if(saved) applyPhoto(el, saved); });
+  }
+
+  // ---------- Render anggota ----------
+  const grid = document.getElementById('anggotaGrid');
+  mahasiswa.forEach(([name, nim]) => {
+    const card = document.createElement('div');
+    card.className = 'id-card';
+    card.innerHTML = `
+      <div class="avatar" tabindex="0">
+        <span class="avatar-initial">${getInitials(name)}</span>
+        <span class="upload-hint">📷</span>
+        <input type="file" accept="image/*" class="sr-only">
+      </div>
+      <div class="name">${name}</div>
+      <div class="nim">${nim}</div>
+    `;
+    grid.appendChild(card);
+    wireUpload(card.querySelector('.avatar'), 'member-' + nim);
+  });
+
+  // ---------- Render galeri ----------
+  const galeriGrid = document.getElementById('galeriGrid');
+  for(let i=1;i<=6;i++){
+    const idx = String(i).padStart(2,'0');
+    const item = document.createElement('div');
+    item.className = 'gal-item';
+    item.innerHTML = `
+      <span>KEGIATAN_${idx}.JPG</span>
+      <span class="upload-hint">📷</span>
+      <input type="file" accept="image/*" class="sr-only">
+    `;
+    galeriGrid.appendChild(item);
+    wireUpload(item, 'gallery-' + idx);
+  }
+
+  // ---------- Mobile menu ----------
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // ---------- Scroll reveal ----------
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+
+  // ---------- Active nav highlight ----------
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const navAnchors = document.querySelectorAll('nav.links a');
+  const navIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const id = e.target.getAttribute('id');
+        navAnchors.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+      }
     });
-    if (name === 'progress') {
-      setTimeout(() => {
-        document.querySelectorAll('.progress-bar').forEach(b => {
-          b.style.width = b.dataset.w;
-        });
-      }, 80);
-    }
-  }
-
-  function addLog(msg, type) {
-    const box = document.getElementById('log-box');
-    const t = new Date().toTimeString().slice(0, 8);
-    const div = document.createElement('div');
-    div.className = 'log-entry';
-    div.innerHTML = `<span class="log-time">${t}</span><span class="log-${type}">${msg}</span>`;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-  }
-
-  function setStatus(text, color) {
-    document.getElementById('status-text').textContent = text;
-    document.getElementById('status-text').style.color = color;
-    document.getElementById('status-dot').style.background = color;
-  }
-
-  function runTest() {
-    if (running) return;
-    running = true;
-    buildCount++;
-    document.getElementById('build-count').textContent = buildCount;
-    setStatus('Running…', '#f59e0b');
-
-    const steps = [
-      [300,  'info', '▶ Build #' + buildCount + ' triggered oleh: Kelompok Ntahlah'],
-      [700,  'info', '  Cloning repository...'],
-      [1200, 'ok',   '✔ Repository cloned'],
-      [1700, 'info', '  Installing dependencies...'],
-      [2400, 'ok',   '✔ Dependencies installed'],
-      [2800, 'info', '  Running unit tests...'],
-      [3400, 'ok',   '✔ All 12 tests passed'],
-      [3800, 'info', '  Building Docker image...'],
-      [4600, 'ok',   '✔ Image built: ntahlah/app:' + buildCount + '.0'],
-      [5200, 'info', '  Deploying to cloud...'],
-      [6000, 'ok',   '✔ Deployment successful'],
-      [6200, 'ok',   '✔ Build #' + buildCount + ' completed in 5.9s'],
-    ];
-
-    steps.forEach(([delay, type, msg]) => {
-      setTimeout(() => addLog(msg, type), delay);
-    });
-
-    setTimeout(() => {
-      setStatus('Ready to Test', '#22c55e');
-      running = false;
-    }, 6400);
-  }
-
-  function resetLog() {
-    const box = document.getElementById('log-box');
-    box.innerHTML = '<div class="log-entry"><span class="log-time">--:--:--</span><span class="log-info">Log dibersihkan. Siap menerima perintah.</span></div>';
-    setStatus('Ready to Test', '#22c55e');
-    running = false;
-  }
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  sections.forEach(s => navIo.observe(s));
 </script>
 
 </body>
