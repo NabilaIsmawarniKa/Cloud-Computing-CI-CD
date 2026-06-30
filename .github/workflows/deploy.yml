@@ -3,11 +3,11 @@ name: Deploy ke Server
 on:
   push:
     branches:
-      - main  # ganti sesuai branch kamu
+      - main
 
 jobs:
   deploy:
-    runs-on: self-hosted  # pakai runner di server kamu
+    runs-on: self-hosted
 
     steps:
       - name: Checkout kode
@@ -15,6 +15,4 @@ jobs:
 
       - name: Deploy website
         run: |
-          rsync -av --exclude='.git' --exclude='.github' \
-    $GITHUB_WORKSPACE/mywebntahlah/ /var/www/html/
-deploy
+          rsync -av --exclude='.git' --exclude='.github' $GITHUB_WORKSPACE/mywebntahlah/ /var/www/html/
