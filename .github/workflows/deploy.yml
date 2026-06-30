@@ -1,0 +1,18 @@
+name: Deploy ke Server
+
+on:
+  push:
+    branches:
+      - main  # ganti sesuai branch kamu
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # pakai runner di server kamu
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v3
+
+      - name: Deploy website
+        run: |
+          cp -r . /var/www/html/  # sesuaikan path tujuan deploy
