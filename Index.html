@@ -1,58 +1,421 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Praktikum Cloud Computing - Kelompok Ntahlah</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Praktikum Cloud Computing - Kelompok Ntahlah</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      padding: 28px 32px;
+      max-width: 640px;
+      width: 100%;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    h2 { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+    .subtitle { font-size: 13px; color: #64748b; }
+    .subtitle span { color: #6366f1; font-weight: 600; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+    .badge-success { background: #dcfce7; color: #15803d; }
+    .badge-accent  { background: #ede9fe; color: #4f46e5; }
+    .badge-warning { background: #fef9c3; color: #a16207; }
+    .badge-danger  { background: #fee2e2; color: #b91c1c; }
+
+    hr.divider { border: 0; height: 1px; background: #e2e8f0; margin: 20px 0; }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 2px; border-bottom: 1px solid #e2e8f0; margin-bottom: 18px; }
+    .tab {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #94a3b8;
+      cursor: pointer;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: none;
+      margin-bottom: -1px;
+      font-family: inherit;
+      transition: color 0.15s;
+    }
+    .tab.active { color: #6366f1; border-bottom-color: #6366f1; }
+    .tab:hover:not(.active) { color: #64748b; }
+
+    .pane { display: none; }
+    .pane.active { display: block; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead th {
+      padding: 8px 0;
+      font-size: 12px;
+      font-weight: 500;
+      color: #94a3b8;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+    }
+    tbody tr { border-bottom: 1px solid #f1f5f9; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 11px 0; }
+
+    .avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #ede9fe; color: #4f46e5;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600;
+      margin-right: 8px; flex-shrink: 0;
+    }
+    .name-cell { display: flex; align-items: center; }
+
+    /* Metric cards */
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+    .metric-card { background: #f8fafc; border-radius: 10px; padding: 12px 14px; border: 1px solid #f1f5f9; }
+    .metric-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+    .metric-value { font-size: 20px; font-weight: 700; color: #1e293b; }
+    .metric-sub { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+    /* Status bar */
+    .status-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #f8fafc; padding: 14px 16px;
+      border-radius: 10px; border: 1px solid #f1f5f9;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 7px; flex-shrink: 0; }
+
+    /* Buttons */
+    .btn {
+      border: 1px solid #cbd5e1; background: transparent; color: #1e293b;
+      padding: 8px 14px; font-size: 13px; font-weight: 500;
+      border-radius: 8px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: inherit; transition: background 0.15s;
+    }
+    .btn:hover { background: #f1f5f9; }
+    .btn-primary { background: #6366f1; color: #fff; border-color: transparent; }
+    .btn-primary:hover { background: #4f46e5; }
+    .btn-danger { background: #ef4444; color: #fff; border-color: transparent; }
+    .btn-danger:hover { background: #dc2626; }
+
+    /* Log box */
+    .log-box {
+      background: #0f172a; border: 1px solid #1e293b;
+      border-radius: 8px; padding: 12px 14px;
+      font-family: 'Courier New', monospace; font-size: 12px;
+      color: #94a3b8; max-height: 160px; overflow-y: auto;
+      line-height: 1.8;
+    }
+    .log-entry { display: flex; gap: 10px; }
+    .log-time  { color: #475569; flex-shrink: 0; }
+    .log-ok    { color: #4ade80; }
+    .log-err   { color: #f87171; }
+    .log-info  { color: #60a5fa; }
+
+    /* Timeline */
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item { display: flex; gap: 14px; position: relative; padding-bottom: 16px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-left { display: flex; flex-direction: column; align-items: center; }
+    .tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .tl-line { width: 1px; flex: 1; background: #e2e8f0; margin-top: 4px; }
+    .tl-item:last-child .tl-line { display: none; }
+    .tl-label { font-size: 13px; font-weight: 500; color: #1e293b; margin-bottom: 2px; }
+    .tl-time  { font-size: 12px; color: #94a3b8; }
+
+    /* Progress bars */
+    .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+    .progress-label { min-width: 80px; color: #64748b; }
+    .progress-bar-bg { flex: 1; height: 6px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+    .progress-bar { height: 100%; border-radius: 99px; background: #6366f1; transition: width 0.9s ease; }
+    .progress-pct { min-width: 34px; text-align: right; color: #94a3b8; font-size: 12px; }
+  </style>
 </head>
-<body style="background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b; margin: 0; padding: 40px; display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+<body>
 
-    <div style="background-color: #ffffff; max-width: 600px; width: 100%; padding: 32px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;">
-        
-        <h2 style="color: #0f172a; margin-top: 0; margin-bottom: 8px; font-size: 24px; font-weight: 700;">Praktikum Cloud Computing</h2>
-        <p style="color: #64748b; margin-top: 0; margin-bottom: 24px; font-size: 14px;">Kelompok: <span style="color: #6366f1; font-weight: 600;">Ntahlah</span></p>
-        
-        <hr style="border: 0; height: 1px; background-color: #e2e8f0; margin-bottom: 24px;">
-
-        <h3 style="color: #334155; font-size: 16px; margin-bottom: 12px; font-weight: 600;">Daftar Anggota</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 15px;">
-            <thead>
-                <tr style="border-bottom: 2px solid #e2e8f0; text-align: left; color: #64748b;">
-                    <th style="padding: 10px 0; font-weight: 500; width: 15%;">No</th>
-                    <th style="padding: 10px 0; font-weight: 500;">Nama Lengkap</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 12px 0; color: #94a3b8;">01</td>
-                    <td style="padding: 12px 0; font-weight: 500;">Nabila Ismawarni KA</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 12px 0; color: #94a3b8;">02</td>
-                    <td style="padding: 12px 0; font-weight: 500;">Kilala Mahadewi</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 12px 0; color: #94a3b8;">03</td>
-                    <td style="padding: 12px 0; font-weight: 500;">Syahrul Ibnu R.</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #f1f5f9;">
-            
-            <div style="display: flex; align-items: center;">
-                <span style="height: 10px; width: 10px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 8px;"></span>
-                <span style="font-size: 14px; font-weight: 600; color: #1e293b;">Status CI/CD: <span style="color: #22c55e;">Ready to Test</span></span>
-            </div>
-
-            <button onclick="alert('Sistem Terverifikasi!\nKelompok: Ntahlah\nStatus: Ready to Test')" 
-                    style="background-color: #6366f1; color: white; border: none; padding: 10px 16px; font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: background-color 0.2s;">
-                Trigger Test
-            </button>
-            
-        </div>
-
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2>Praktikum Cloud Computing</h2>
+      <p class="subtitle">Kelompok: <span>Ntahlah</span></p>
     </div>
+    <span class="badge badge-success"><i class="ti ti-circle-check"></i> Active</span>
+  </div>
+
+  <hr class="divider">
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('anggota')">Anggota</button>
+    <button class="tab" onclick="switchTab('pipeline')">Pipeline</button>
+    <button class="tab" onclick="switchTab('progress')">Progress</button>
+  </div>
+
+  <!-- Tab: Anggota -->
+  <div class="pane active" id="pane-anggota">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px;">No</th>
+          <th>Nama lengkap</th>
+          <th style="text-align:right;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:#94a3b8;">01</td>
+          <td><div class="name-cell"><div class="avatar">NI</div>Nabila Ismawarni KA</div></td>
+          <td style="text-align:right;"><span class="badge badge-success">Aktif</span></td>
+        </tr>
+        <tr>
+          <td style="color:#94a3b8;">02</td>
+          <td><div class="name-cell"><div class="avatar">KM</div>Kilala Mahadewi</div></td>
+          <td style="text-align:right;"><span class="badge badge-success">Aktif</span></td>
+        </tr>
+        <tr>
+          <td style="color:#94a3b8;">03</td>
+          <td><div class="name-cell"><div class="avatar">SI</div>Syahrul Ibnu R.</div></td>
+          <td style="text-align:right;"><span class="badge badge-success">Aktif</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-label">Anggota</div>
+        <div class="metric-value">3</div>
+        <div class="metric-sub">Total</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Build</div>
+        <div class="metric-value" id="build-count">0</div>
+        <div class="metric-sub">dijalankan</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Uptime</div>
+        <div class="metric-value" id="uptime">0s</div>
+        <div class="metric-sub">sesi ini</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Pipeline -->
+  <div class="pane" id="pane-pipeline">
+    <div class="status-bar">
+      <div style="display:flex; align-items:center;">
+        <span class="dot" id="status-dot" style="background:#22c55e;"></span>
+        <span style="font-size:13px; font-weight:600; color:#1e293b;">
+          CI/CD Status: <span id="status-text" style="color:#22c55e;">Ready to Test</span>
+        </span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-primary" onclick="runTest()">
+          <i class="ti ti-player-play"></i> Trigger Test
+        </button>
+        <button class="btn btn-danger" onclick="resetLog()">
+          <i class="ti ti-trash"></i> Clear
+        </button>
+      </div>
+    </div>
+
+    <div class="section-title">Execution log</div>
+    <div class="log-box" id="log-box">
+      <div class="log-entry">
+        <span class="log-time">--:--:--</span>
+        <span class="log-info">Siap menerima perintah. Tekan Trigger Test.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Progress -->
+  <div class="pane" id="pane-progress">
+    <div class="section-title">Checklist modul</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot" style="background:#22c55e;"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-label">Setup VM &amp; Cloud Provider <span class="badge badge-success" style="font-size:11px;">Selesai</span></div>
+          <div class="tl-time">Modul 1</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot" style="background:#22c55e;"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-label">Containerization &amp; Docker <span class="badge badge-success" style="font-size:11px;">Selesai</span></div>
+          <div class="tl-time">Modul 2</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot" style="background:#6366f1;"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-label">CI/CD Pipeline <span class="badge badge-accent" style="font-size:11px;">Berlangsung</span></div>
+          <div class="tl-time">Modul 3 — saat ini</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot" style="background:#f59e0b;"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-label">Kubernetes Orchestration <span class="badge badge-warning" style="font-size:11px;">Belum</span></div>
+          <div class="tl-time">Modul 4</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot" style="background:#f59e0b;"></div></div>
+        <div>
+          <div class="tl-label">Monitoring &amp; Observability <span class="badge badge-warning" style="font-size:11px;">Belum</span></div>
+          <div class="tl-time">Modul 5</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-title">Kontribusi anggota</div>
+    <div id="progress-bars">
+      <div class="progress-row">
+        <span class="progress-label">Nabila</span>
+        <div class="progress-bar-bg"><div class="progress-bar" style="width:0%" data-w="78%"></div></div>
+        <span class="progress-pct">78%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Kilala</span>
+        <div class="progress-bar-bg"><div class="progress-bar" style="width:0%" data-w="65%"></div></div>
+        <span class="progress-pct">65%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Syahrul</span>
+        <div class="progress-bar-bg"><div class="progress-bar" style="width:0%" data-w="71%"></div></div>
+        <span class="progress-pct">71%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let buildCount = 0;
+  let startTime = Date.now();
+  let running = false;
+
+  setInterval(() => {
+    const sec = Math.floor((Date.now() - startTime) / 1000);
+    const el = document.getElementById('uptime');
+    if (el) el.textContent = sec < 60 ? sec + 's' : Math.floor(sec / 60) + 'm ' + (sec % 60) + 's';
+  }, 1000);
+
+  function switchTab(name) {
+    const names = ['anggota', 'pipeline', 'progress'];
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', names[i] === name);
+    });
+    document.querySelectorAll('.pane').forEach((p) => {
+      p.classList.toggle('active', p.id === 'pane-' + name);
+    });
+    if (name === 'progress') {
+      setTimeout(() => {
+        document.querySelectorAll('.progress-bar').forEach(b => {
+          b.style.width = b.dataset.w;
+        });
+      }, 80);
+    }
+  }
+
+  function addLog(msg, type) {
+    const box = document.getElementById('log-box');
+    const t = new Date().toTimeString().slice(0, 8);
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    div.innerHTML = `<span class="log-time">${t}</span><span class="log-${type}">${msg}</span>`;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function setStatus(text, color) {
+    document.getElementById('status-text').textContent = text;
+    document.getElementById('status-text').style.color = color;
+    document.getElementById('status-dot').style.background = color;
+  }
+
+  function runTest() {
+    if (running) return;
+    running = true;
+    buildCount++;
+    document.getElementById('build-count').textContent = buildCount;
+    setStatus('Running…', '#f59e0b');
+
+    const steps = [
+      [300,  'info', '▶ Build #' + buildCount + ' triggered oleh: Kelompok Ntahlah'],
+      [700,  'info', '  Cloning repository...'],
+      [1200, 'ok',   '✔ Repository cloned'],
+      [1700, 'info', '  Installing dependencies...'],
+      [2400, 'ok',   '✔ Dependencies installed'],
+      [2800, 'info', '  Running unit tests...'],
+      [3400, 'ok',   '✔ All 12 tests passed'],
+      [3800, 'info', '  Building Docker image...'],
+      [4600, 'ok',   '✔ Image built: ntahlah/app:' + buildCount + '.0'],
+      [5200, 'info', '  Deploying to cloud...'],
+      [6000, 'ok',   '✔ Deployment successful'],
+      [6200, 'ok',   '✔ Build #' + buildCount + ' completed in 5.9s'],
+    ];
+
+    steps.forEach(([delay, type, msg]) => {
+      setTimeout(() => addLog(msg, type), delay);
+    });
+
+    setTimeout(() => {
+      setStatus('Ready to Test', '#22c55e');
+      running = false;
+    }, 6400);
+  }
+
+  function resetLog() {
+    const box = document.getElementById('log-box');
+    box.innerHTML = '<div class="log-entry"><span class="log-time">--:--:--</span><span class="log-info">Log dibersihkan. Siap menerima perintah.</span></div>';
+    setStatus('Ready to Test', '#22c55e');
+    running = false;
+  }
+</script>
 
 </body>
 </html>
