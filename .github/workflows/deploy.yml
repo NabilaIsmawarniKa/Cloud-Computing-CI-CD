@@ -15,4 +15,4 @@ jobs:
 
       - name: Deploy website
         run: |
-          rsync -av --exclude='.git' --exclude='.github' $GITHUB_WORKSPACE/mywebntahlah/ /var/www/html/
+          rsync -av --exclude='.git' --exclude='.github' $GITHUB_WORKSPACE/ /var/www/html/
