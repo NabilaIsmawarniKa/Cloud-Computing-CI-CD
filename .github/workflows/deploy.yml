@@ -15,4 +15,6 @@ jobs:
 
       - name: Deploy website
         run: |
-          cp -r . /var/www/html/  # sesuaikan path tujuan deploy
+          rsync -av --exclude='.git' --exclude='.github' \
+    $GITHUB_WORKSPACE/mywebntahlah/ /var/www/html/
+deploy
